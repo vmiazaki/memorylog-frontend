@@ -1,7 +1,7 @@
-// app/page.tsx
+// app/albums/page.tsx
 import { getAlbums } from '@/lib/strapi';
 
-export default async function Home() {
+export default async function AlbumsPage() {
   const albums = await getAlbums();
 
   return (
