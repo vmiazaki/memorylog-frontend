@@ -2,37 +2,30 @@
 
 'use client';
 
-import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { useTransition } from './TransitionProvider';
-import NavLogo from '@/components/NavLogo';
+import TransitionLogo from '@/components/TransitionLogo';
+import TransitionLink from '@/components/TransitionLink';
+import { TRANSITION_DURATION } from '@/lib/global';
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const { hasNavAnimatedIn, setNavAnimatedIn } = useTransition();
-
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="appShell flex flex-col min-h-screen">
       <motion.nav
-        className="flex items-center justify-between p-4"
+        className="flex items-center justify-between p-4 z-50"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.25, ease: 'easeInOut' }}
-        onAnimationComplete={() => {
-          if (!hasNavAnimatedIn) setNavAnimatedIn();
+        transition={{
+          duration: TRANSITION_DURATION / 500,
+          ease: 'easeInOut',
         }}
       >
-        {/* Left: M_ Link */}
-        <NavLogo />
-
-        {/* Center: Nav Links */}
-        <div className="space-x-6 text-center">
-          <Link href="/albums" className="hover:underline">Albums</Link>
-          <Link href="/places" className="hover:underline">Places</Link>
-          <Link href="/years" className="hover:underline">Years</Link>
+        <TransitionLogo />
+        <div className="navMenu">
+          <TransitionLink href="/albums" className="navLink">Albums</TransitionLink>
+          <TransitionLink href="/places" className="navLink">Places</TransitionLink>
+          <TransitionLink href="/years" className="navLink">Years</TransitionLink>
         </div>
-
-        {/* Right: + Link */}
-        <Link href="#" className="text-xl">+</Link>
+        <TransitionLink className="navMore" href="/about">+</TransitionLink>
       </motion.nav>
 
       {children}

@@ -1,15 +1,15 @@
-// app/album/[slug]/page.tsx
+// app/album/[slug]/page.tsx (Server Component)
+
 import { getAlbumBySlug } from '@/lib/strapi';
 import { notFound } from 'next/navigation';
+import AlbumClient from './AlbumClient';
 
-export default async function AlbumPost({ params }: { params: { slug: string } }) {
-  const album = await getAlbumBySlug(params.slug);
+export default async function AlbumPage(props: { params: { slug: string } }) {
+  const { params } = props;
+  const { slug } = await params;
+  const album = await getAlbumBySlug(slug);
+
   if (!album) return notFound();
 
-  return (
-    <main>
-      <h1>Album: {params.slug}</h1>
-      <pre>{JSON.stringify(album, null, 2)}</pre>
-    </main>
-  );
+  return <AlbumClient album={album} />;
 }

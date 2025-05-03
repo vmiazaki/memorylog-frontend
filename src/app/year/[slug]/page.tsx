@@ -1,15 +1,15 @@
-// app/year/[slug]/page.tsx
+// app/year/[slug]/page.tsx (Server Component)
+
 import { getYearBySlug } from '@/lib/strapi';
 import { notFound } from 'next/navigation';
+import YearClient from './YearClient';
 
-export default async function YearPost({ params }: { params: { slug: string } }) {
-  const year = await getYearBySlug(params.slug);
+export default async function YearPost(props: { params: { slug: string } }) {
+  const { params } = props;
+  const { slug } = await params;
+  const year = await getYearBySlug(slug);
+
   if (!year) return notFound();
 
-  return (
-    <main>
-      <h1>Year: {params.slug}</h1>
-      <pre>{JSON.stringify(year, null, 2)}</pre>
-    </main>
-  );
+  return <YearClient year={year} />;
 }

@@ -1,13 +1,9 @@
-// app/years/page.tsx
+// app/years/page.tsx (Server Component)
+
+import YearsClient from './YearsClient';
 import { getYears } from '@/lib/strapi';
 
 export default async function YearsPage() {
   const years = await getYears();
-
-  return (
-    <main>
-      <h1>Years</h1>
-      <pre>{JSON.stringify(years, null, 2)}</pre>
-    </main>
-  );
+  return <YearsClient years={years} />;
 }

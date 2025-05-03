@@ -1,31 +1,43 @@
-// component/NavLogo.tsx
+// component/TransitionLogo.tsx
 
-"use client";
+'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { getAlbums } from '@/lib/strapi';
+import { useTransition } from './TransitionGlobal';
+import { TRANSITION_DURATION } from '@/lib/global';
 
-function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+const TIMING = {
+  pauseAfterDelete: TRANSITION_DURATION,
+  typePlace: TRANSITION_DURATION * 3,
+  pauseAfterPlace: TRANSITION_DURATION,
+  typeYear: TRANSITION_DURATION,
+  holdFull: TRANSITION_DURATION * 2,
+  deleteFull: TRANSITION_DURATION * 2,
+  pauseAfterDeleteAll: TRANSITION_DURATION,
+  total: TRANSITION_DURATION * 11,
+};
 
-export default function NavLogo() {
+export default function TransitionLogo() {
   const router = useRouter();
+  const { setPageTransitionState, setCanFadeIn } = useTransition();
   const [logoText, setLogoText] = useState('M');
-  const [blinking, setBlinking] = useState<boolean>(true);
-  const [isAnimating, setIsAnimating] = useState<boolean>(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const [targetSlug, setTargetSlug] = useState<string | null>(null);
   const [albumMeta, setAlbumMeta] = useState<{ place: string; year: string } | null>(null);
-  const previousSlugRef = useRef<string | null>(null);
 
   const handleLogoClick = async () => {
     if (isAnimating || !albumMeta || !targetSlug) return;
 
+    setCanFadeIn(false);
     animateLogoWithPlaceAndYear(albumMeta.place, albumMeta.year);
-    await sleep(4400);
-    router.push(`/album/${targetSlug}`);
-    await fetchRandomAlbum(targetSlug); // Preload next
+    setPageTransitionState('fadingOut');
+
+    setTimeout(() => {
+      router.push(`/album/${targetSlug}`);  
+      fetchRandomAlbum(targetSlug);
+    }, TRANSITION_DURATION * 5);  
   };
 
   const fetchRandomAlbum = async (excludeSlug?: string) => {
@@ -47,27 +59,15 @@ export default function NavLogo() {
 
       setTargetSlug(slug);
       setAlbumMeta({ place, year: yearStr });
-      previousSlugRef.current = slug;
     } catch (err) {
       console.error('Failed to fetch album:', err);
-      displayFallbackText('Error Fetching');
     }
-  };
-
-  const displayFallbackText = (message: string) => {
-    setLogoText(message);
-    setBlinking(false);
-    setTimeout(() => {
-      setLogoText('M');
-      setBlinking(true);
-    }, 5000);
   };
 
   const animateLogoWithPlaceAndYear = (place: string, year: string) => {
     setIsAnimating(true);
-    setBlinking(false);
-    setLogoText('M');
-
+    setLogoText(''); // delete M instantly
+  
     const typeText = (text: string, delay: number, callback: (typed: string) => void) => {
       let typed = '';
       const interval = delay / text.length;
@@ -78,7 +78,7 @@ export default function NavLogo() {
         }, index * interval);
       });
     };
-
+  
     const deleteText = (text: string, delay: number, callback: (remaining: string) => void) => {
       const interval = delay / text.length;
       text.split('').forEach((_, index) => {
@@ -88,49 +88,45 @@ export default function NavLogo() {
         }, index * interval);
       });
     };
-
-    deleteText('M', 500, () => setLogoText(''));
-    setTimeout(() => setBlinking(true), 300);
-    setTimeout(() => setBlinking(false), 600);
-
+  
+    // Type place
     setTimeout(() => {
-      typeText(place, 1000, (typed) => {
-        setLogoText(typed);
-      });
-    }, 600);
-
-    setTimeout(() => setBlinking(true), 1800);
+      typeText(place, TIMING.typePlace, (typed) => setLogoText(typed));
+    }, TIMING.pauseAfterDelete);
+  
+    // Type year
     setTimeout(() => {
-      setBlinking(false);
-      typeText(year, 400, (typed) => {
-        setLogoText(`${place} ${typed}`);
-      });
-    }, 2200);
-
-    setTimeout(() => setBlinking(true), 2800);
+      typeText(year, TIMING.typeYear, (typed) => setLogoText(`${place} ${typed}`));
+    }, TIMING.pauseAfterDelete + TIMING.typePlace + TIMING.pauseAfterPlace);
+  
+    // Delete full
     setTimeout(() => {
-      setBlinking(false);
       const full = `${place} ${year}`;
-      deleteText(full, 800, (remaining) => {
-        setLogoText(remaining);
-      });
-    }, 3200);
+      deleteText(full, TIMING.deleteFull, (remaining) => setLogoText(remaining));
+    }, TIMING.pauseAfterDelete + TIMING.typePlace + TIMING.pauseAfterPlace + TIMING.typeYear + TIMING.holdFull);
+  
+    // Reset animation state  
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, TIMING.pauseAfterDelete + TIMING.typePlace + TIMING.pauseAfterPlace + TIMING.typeYear + TIMING.holdFull + TIMING.deleteFull);
 
+    // Set logo text back to 'M'   
     setTimeout(() => {
       setLogoText('M');
-      setBlinking(true);
-      setIsAnimating(false);
-    }, 4000);
-  };
+    }, TIMING.total);
+  };  
 
   useEffect(() => {
     fetchRandomAlbum();
   }, []);
 
   return (
-    <div onClick={handleLogoClick} className="text-lg font-mono cursor-pointer">
-      <span>{logoText}</span>
-      {blinking && <span className="animate-blink">|</span>}
+    <div onClick={handleLogoClick} className="navLogo cursor-pointer">
+      <span className={`navM_ ${isAnimating ? 'navRandomAlbum' : ''}`}>
+        {isAnimating && <span className="navArrow">&gt;</span>}
+        {logoText}
+      </span>
+      <span className="navUnderscore">_</span>
     </div>
-  );
+  );  
 }
