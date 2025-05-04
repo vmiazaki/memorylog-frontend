@@ -40,12 +40,15 @@ export default function TransitionLink({ href, children, className }: Transition
   };
 
   useEffect(() => {
-    if (pathname === href && linkRef.current) {
-      document.querySelectorAll('.navLink.active').forEach(el => {
-        el.classList.remove('active');
-      });
+    const allLinks = document.querySelectorAll('.navLink');
 
-      linkRef.current.classList.add('active');
+    if (pathname === href) {
+      allLinks.forEach(el => el.classList.remove('active'));
+      if (linkRef.current) {
+        linkRef.current.classList.add('active');
+      }
+    } else if (pathname === '/') {
+      allLinks.forEach(el => el.classList.remove('active'));
     }
   }, [pathname, href]);
 

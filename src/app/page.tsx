@@ -4,7 +4,6 @@
 
 import { motion } from 'framer-motion';
 import HomeTitle from '@/components/HomeTitle';
-import HomeLoader from '@/components/HomeLoader';
 import { TRANSITION_DURATION } from '@/lib/global';
 
 export default function HomePage() {
@@ -12,9 +11,6 @@ export default function HomePage() {
     <>
       {/* Title */}
       <HomeTitle />
-
-      {/* Curtain Loader */}
-      <HomeLoader />
 
       {/* Background Video */}
       <motion.video

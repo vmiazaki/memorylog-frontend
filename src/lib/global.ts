@@ -6,11 +6,30 @@ export interface Album {
   id: number;
   slug: string;
   title: string;
+  documentId?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
+  coverImage?: {
+    url: string;
+  } | null;
   year?: {
+    id: number;
     year: string;
+    slug: string;
+    documentId?: string;
+    createdAt?: string;
+    updatedAt?: string;
+    publishedAt?: string;
   };
   places?: {
+    id: number;
     name: string;
+    slug: string;
+    documentId?: string;
+    createdAt?: string;
+    updatedAt?: string;
+    publishedAt?: string;
   }[];
 }
 
@@ -18,12 +37,31 @@ export interface Place {
   id: number;
   name: string;
   slug: string;
-  albums?: Album[];
+  documentId?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
+  coverImage?: {
+    url: string;
+  } | null;
+  albums?: {
+    id: number;
+    title: string;
+    slug: string;
+    coverImage?: {
+      url: string;
+    } | null;
+  }[];
 }
+
 
 export interface Year {
   id: number;
   year: string;
   slug: string;
+  documentId?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
   albums?: Album[];
 }

@@ -3,13 +3,20 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { usePathname } from 'next/navigation';
+import clsx from 'clsx';
 import TransitionLogo from '@/components/TransitionLogo';
 import TransitionLink from '@/components/TransitionLink';
 import { TRANSITION_DURATION } from '@/lib/global';
 
 export function AppShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
+  const pathParts = pathname.split('/').filter(Boolean); // e.g. ['albums', 'summer-2023']
+  const rootSlug = pathParts[0] || 'home'; // fallback to 'home' if on /
+
   return (
-    <div className="appShell flex flex-col min-h-screen">
+    <div className={clsx('appShell flex flex-col min-h-screen', `page--${rootSlug}`)}>
       <motion.nav
         className="flex items-center justify-between p-4 z-50"
         initial={{ opacity: 0 }}

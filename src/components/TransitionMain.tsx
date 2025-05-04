@@ -17,7 +17,7 @@ export function TransitionMain({ children }: { children: React.ReactNode }) {
 
   if (!hasMounted) {
     // Prevent mismatches during SSR
-    return <main className="flex-1 overflow-hidden">{children}</main>;
+    return <main className="flex-1">{children}</main>;
   }
 
   const shouldFadeOut = pageTransitionState === 'fadingOut';
@@ -30,7 +30,7 @@ export function TransitionMain({ children }: { children: React.ReactNode }) {
         duration: TRANSITION_DURATION / 1000,
         ease: 'easeInOut',
       }}
-      className="flex-1 overflow-hidden"
+      className="flex-1"
     >
       <div className="mainContainer">{children}</div>
     </motion.main>

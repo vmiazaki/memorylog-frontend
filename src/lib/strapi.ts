@@ -28,14 +28,14 @@ export async function getAlbums() {
 export async function getPlaces() {
   return fetchFromStrapi(
     'places',
-    'populate[coverImage]=true&populate[albums]=true'
+    'populate[coverImage]=true&populate[albums][populate][coverImage]=true'
   );
 }
 
 export async function getYears() {
   return fetchFromStrapi(
     'years',
-    'populate[albums]=true'
+    'populate[albums][populate][coverImage]=true'
   );
 }
 

@@ -9,7 +9,7 @@ export default function AboutClient() {
 
   return (
     <>
-      <h1 className="">About the Memorylog</h1>
+      <h1 className="text-2xl font-bold">About the Memorylog</h1>
       <p className="">
         This is a placeholder paragraph for the About page. You can update this section to describe your project, the inspiration behind it, or anything else relevant.
       </p>

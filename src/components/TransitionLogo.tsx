@@ -30,16 +30,20 @@ export default function TransitionLogo() {
   const handleLogoClick = async () => {
     if (isAnimating || !albumMeta || !targetSlug) return;
 
+    document.querySelectorAll('.navLink.active').forEach(el => {
+      el.classList.remove('active');
+    });
+  
     setCanFadeIn(false);
     animateLogoWithPlaceAndYear(albumMeta.place, albumMeta.year);
     setPageTransitionState('fadingOut');
-
+  
     setTimeout(() => {
-      router.push(`/album/${targetSlug}`);  
+      router.push(`/album/${targetSlug}`);
       fetchRandomAlbum(targetSlug);
-    }, TRANSITION_DURATION * 5);  
+    }, TRANSITION_DURATION * 5);
   };
-
+  
   const fetchRandomAlbum = async (excludeSlug?: string) => {
     try {
       const res = await getAlbums();

@@ -22,6 +22,7 @@
 /* === Global Styles === */
 :root {
   --dark-color: #232323;
+  --medium-color: #303030;
   --light-color: #f3f3f3;
   --main-color: #FFBB00;
   --font-agharti: 'Agharti', sans-serif;
@@ -46,13 +47,24 @@ html, body {
 
 .appShell {
   position: relative;
-  width: 100%;
-  height: 100svh;
-  min-height: 600px;
+}
+
+main {
+  opacity: 1;
+  background: var(--medium-color);
+  border-radius: 20px;
+  width: calc(100% - 40px);
+  max-width: 1400px;
+  margin: 0 auto 20px;
+  padding: 40px;
+}
+
+.page--home main {
+  background: none !important;
 }
 
 .mainContainer {
-  padding: 0 30px;
+  padding: 0;
 }
 
 /* === Nav Header === */
@@ -72,10 +84,12 @@ nav *:focus-visible {
 }
 
 nav {
-  position: relative;
   width: 100%;
+  max-width: 1440px;
   height: 80px;
   padding: 0 30px;
+  margin: auto;
+  position: relative;
 }
 
 .navLogo {
@@ -84,6 +98,7 @@ nav {
   left: 30px;
   top: 50%;
   transform: translateY(-50%);
+  padding-left: 5px;
 }
 
 .navLogo .navM_ {
@@ -118,7 +133,7 @@ nav {
   top: 50%;
   transform: translate(-50%, -50%); /* Center horizontally and vertically */
   display: flex;
-  gap: 60px;
+  gap: 40px;
   margin: 2px 0 0;
 }
 
@@ -128,24 +143,15 @@ nav {
   letter-spacing: 2px;
   position: relative;
   background: transparent;
+  padding: 5px 20px;
+  border-radius: 10px;
+  background: transparent;
+  transition: all 0.3s ease;
 }
 
-.navLink:before {
-  content: ">";
-  font-family: var(--font-vcr);
-  opacity: 0;
-  font-size: 0.8rem;
-  position: absolute;
-  top: 3px;
-  left: -15px;
-}
-
-.navLink:not(.active):hover:before {
-  animation: blink 1s infinite;
-}
-
-.navLink.active:before {
+.navLink.active {
   opacity: 1;
+  background: var(--medium-color);
 }
 
 .navMore {
