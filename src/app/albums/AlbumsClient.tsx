@@ -3,44 +3,49 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { Album } from '@/lib/global';
 import { usePageReady } from '@/lib/mounted';
+import TransitionImage from '@/components/TransitionImage';
 
 export default function AlbumsClient({ albums }: { albums: { data: Album[] } }) {
   usePageReady();
   const data = albums.data;
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-6">Albums</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <>
+      <div className="main-title main-inner">
+        <div className="main-title-inner">
+          <h1>All Albums</h1>
+          <p>Ordered Chronologically</p>
+        </div>
+        <p>{data.length} Albums Logged</p>
+      </div>
+
+      <div className="main-content main-inner">
         {data.map((album) => (
           <Link
             key={album.id}
             href={`/album/${album.slug}`}
-            className="block rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"
+            className="album-entry"
           >
-            <div className="relative w-full aspect-square bg-gray-100">
-              {album.coverImage?.url ? (
-                <Image
-                  src={album.coverImage.url}
-                  alt={album.title}
-                  fill
-                  className="object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-sm text-gray-500">
-                  No Cover Image
-                </div>
-              )}
+            <div className="album-image-wrapper">
+              <TransitionImage
+                src={album.coverImage?.url || '/fallback.jpg'}
+                alt={album.title}
+                className="album-image"
+              />
+              <div className="album-overlay-meta">
+                <p className="album-year">{album.year?.year}</p>
+                <p className="album-period">{album.timePeriod}</p>
+              </div>
             </div>
-            <div className="p-2 text-center text-base font-medium">
+
+            <div className="album-title">
               {album.title}
             </div>
           </Link>
         ))}
       </div>
-    </div>
+    </>
   );
 }

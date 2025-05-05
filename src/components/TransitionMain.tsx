@@ -10,14 +10,21 @@ import { TRANSITION_DURATION } from '@/lib/global';
 export function TransitionMain({ children }: { children: React.ReactNode }) {
   const { pageTransitionState } = useTransition();
   const [hasMounted, setHasMounted] = useState(false);
+  const [fontsReady, setFontsReady] = useState(false);
 
   useEffect(() => {
     setHasMounted(true);
   }, []);
 
-  if (!hasMounted) {
-    // Prevent mismatches during SSR
-    return <main className="flex-1">{children}</main>;
+  useEffect(() => {
+    if (!hasMounted) return;
+    document.fonts.ready.then(() => {
+      setFontsReady(true);
+    });
+  }, [hasMounted]);
+
+  if (!hasMounted || !fontsReady) {
+    return null; // Wait for client + font readiness before rendering
   }
 
   const shouldFadeOut = pageTransitionState === 'fadingOut';
@@ -30,9 +37,9 @@ export function TransitionMain({ children }: { children: React.ReactNode }) {
         duration: TRANSITION_DURATION / 1000,
         ease: 'easeInOut',
       }}
-      className="flex-1"
+      className="app-main"
     >
-      <div className="mainContainer">{children}</div>
+      {children}
     </motion.main>
   );
 }

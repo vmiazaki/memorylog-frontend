@@ -24,7 +24,7 @@ export default function TransitionLink({ href, children, className }: Transition
 
     if (pathname === href) return;
 
-    document.querySelectorAll('.navLink.active').forEach(el => {
+    document.querySelectorAll('.nav-link.active').forEach(el => {
       el.classList.remove('active');
     });
 
@@ -40,7 +40,7 @@ export default function TransitionLink({ href, children, className }: Transition
   };
 
   useEffect(() => {
-    const allLinks = document.querySelectorAll('.navLink');
+    const allLinks = document.querySelectorAll('.nav-link');
 
     if (pathname === href) {
       allLinks.forEach(el => el.classList.remove('active'));

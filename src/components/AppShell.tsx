@@ -16,9 +16,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const rootSlug = pathParts[0] || 'home'; // fallback to 'home' if on /
 
   return (
-    <div className={clsx('appShell flex flex-col min-h-screen', `page--${rootSlug}`)}>
+    <div className={clsx('app-shell', `page--${rootSlug}`)}>
       <motion.nav
-        className="flex items-center justify-between p-4 z-50"
+        className="app-nav"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{
@@ -27,12 +27,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         }}
       >
         <TransitionLogo />
-        <div className="navMenu">
-          <TransitionLink href="/albums" className="navLink">Albums</TransitionLink>
-          <TransitionLink href="/places" className="navLink">Places</TransitionLink>
-          <TransitionLink href="/years" className="navLink">Years</TransitionLink>
+        <div className="nav-menu">
+          <TransitionLink href="/albums" className="nav-link">Albums</TransitionLink>
+          <TransitionLink href="/places" className="nav-link">Places</TransitionLink>
+          <TransitionLink href="/years" className="nav-link">Years</TransitionLink>
         </div>
-        <TransitionLink className="navMore" href="/about">+</TransitionLink>
+        <TransitionLink className="nav-more" href="/about"><span className="more-icon">+</span></TransitionLink>
       </motion.nav>
 
       {children}

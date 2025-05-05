@@ -47,7 +47,7 @@ export default function HomeTitle() {
 
   return (
     <motion.h1
-      className="homeTitle"
+      className="home-title"
       initial={{ scale: 0.6 }}
       animate={{ scale: titleScale }}
       transition={{

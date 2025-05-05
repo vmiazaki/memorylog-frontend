@@ -19,7 +19,7 @@ export default function HomePage() {
         muted
         playsInline
         preload="auto"
-        className="homeVideo"
+        className="home-video"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{
@@ -32,21 +32,21 @@ export default function HomePage() {
       </motion.video>
 
       {/* Background Video Overlay */}
-      <div className="homeVideoOverlay" />
+      <div className="home-video-overlay" />
 
       {/* Credits Block */}
       <motion.div
-        key="homeCredits"
+        key="home-credits"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{
           duration: TRANSITION_DURATION / 1000,
           ease: 'easeInOut',
         }}
-        className="homeCredits"
+        className="home-credits"
       >
-        <p className="creditSmall">a project by</p>
-        <p className="creditLarge">Vinícius Miazaki de Moraes</p>
+        <p className="credit-small">a project by</p>
+        <p className="credit-large">Vinícius Miazaki de Moraes</p>
       </motion.div>
     </>
   );

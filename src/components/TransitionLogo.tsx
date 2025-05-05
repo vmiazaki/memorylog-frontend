@@ -30,7 +30,7 @@ export default function TransitionLogo() {
   const handleLogoClick = async () => {
     if (isAnimating || !albumMeta || !targetSlug) return;
 
-    document.querySelectorAll('.navLink.active').forEach(el => {
+    document.querySelectorAll('.nav-link.active').forEach(el => {
       el.classList.remove('active');
     });
   
@@ -125,12 +125,12 @@ export default function TransitionLogo() {
   }, []);
 
   return (
-    <div onClick={handleLogoClick} className="navLogo cursor-pointer">
-      <span className={`navM_ ${isAnimating ? 'navRandomAlbum' : ''}`}>
-        {isAnimating && <span className="navArrow">&gt;</span>}
+    <div onClick={handleLogoClick} className="nav-logo cursor-pointer">
+      <span className={`nav-m ${isAnimating ? 'nav-random-album' : ''}`}>
+        {isAnimating && <span className="nav-arrow">&gt;</span>}
         {logoText}
       </span>
-      <span className="navUnderscore">_</span>
+      <span className="nav-underscore">_</span>
     </div>
   );  
 }

@@ -6,6 +6,7 @@ export interface Album {
   id: number;
   slug: string;
   title: string;
+  timePeriod?: string;
   documentId?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -53,7 +54,6 @@ export interface Place {
     } | null;
   }[];
 }
-
 
 export interface Year {
   id: number;
