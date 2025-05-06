@@ -2,7 +2,7 @@
 
 'use client';
 
-import Link from 'next/link';
+import TransitionLink from '@/components/TransitionLink';
 import { Album } from '@/lib/global';
 import { usePageReady } from '@/lib/mounted';
 import TransitionImage from '@/components/TransitionImage';
@@ -23,14 +23,14 @@ export default function AlbumsClient({ albums }: { albums: { data: Album[] } }) 
 
       <div className="main-content main-inner">
         {data.map((album) => (
-          <Link
+          <TransitionLink
             key={album.id}
             href={`/album/${album.slug}`}
             className="album-entry"
           >
             <div className="album-image-wrapper">
               <TransitionImage
-                src={album.coverImage?.url || '/fallback.jpg'}
+                src={album.coverImage?.url}
                 alt={album.title}
                 className="album-image"
               />
@@ -43,7 +43,7 @@ export default function AlbumsClient({ albums }: { albums: { data: Album[] } }) 
             <div className="album-title">
               {album.title}
             </div>
-          </Link>
+          </TransitionLink>
         ))}
       </div>
     </>

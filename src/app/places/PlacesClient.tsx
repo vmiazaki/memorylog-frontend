@@ -2,7 +2,7 @@
 
 'use client';
 
-import Link from 'next/link';
+import TransitionLink from '@/components/TransitionLink';
 import { Place } from '@/lib/global';
 import { usePageReady } from '@/lib/mounted';
 import TransitionImage from '@/components/TransitionImage';
@@ -16,34 +16,37 @@ export default function PlacesClient({ places }: { places: { data: Place[] } }) 
       <div className="main-title main-inner">
         <div className="main-title-inner">
           <h1>All Places</h1>
-          <p>Ordered Chronologically</p>
+          <p>Organized by Location</p>
         </div>
         <p>{data.length} Places Logged</p>
       </div>
 
       <div className="main-content main-inner">
         {data.map((place) => (
-          <Link
+          <TransitionLink
             key={place.id}
             href={`/place/${place.slug}`}
             className="place-entry"
           >
-            {place.coverImage?.url ? (
+            <div className="place-image-wrapper">
               <TransitionImage
-                src={place.coverImage.url}
+                src={place.coverImage?.url}
                 alt={place.name}
                 className="place-image"
               />
-            ) : (
-              <div className="place-image-placeholder">
-                No Cover Image
-              </div>
-            )}
-
-            <div className="place-name">
-              {place.name}
+              <div className="place-overlay">+</div>
             </div>
-          </Link>
+            <div className="place-meta">
+              <div className="place-title">
+                {place.name}
+              </div>
+              <div className="place-albums-count">
+                {place.albums?.length === 1
+                  ? '1 album'
+                  : `${place.albums?.length || 0} albums`}
+              </div>
+            </div>
+          </TransitionLink>
         ))}
       </div>
     </>

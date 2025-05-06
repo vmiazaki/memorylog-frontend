@@ -125,7 +125,19 @@ export default function TransitionLogo() {
   }, []);
 
   return (
-    <div onClick={handleLogoClick} className="nav-logo cursor-pointer">
+    <div
+      onClick={handleLogoClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleLogoClick();
+        }
+      }}
+      tabIndex={0}
+      role="button"
+      aria-label="Go to a random album"
+      className="nav-logo cursor-pointer"
+    >
       <span className={`nav-m ${isAnimating ? 'nav-random-album' : ''}`}>
         {isAnimating && <span className="nav-arrow">&gt;</span>}
         {logoText}
