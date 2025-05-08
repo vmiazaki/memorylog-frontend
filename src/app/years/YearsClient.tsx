@@ -29,7 +29,7 @@ export default function YearsClient({ years }: { years: { data: YearWithAlbums[]
       <div className="main-content main-inner">
         {data.map((year) => (
           <div key={year.id} className="year-entry">
-            <Link href={`/year/${year.slug}`} className="year-label">
+            <Link href={`/year/${year.slug}`} className="year-link">
               <span>{year.year}</span>
               <span className="year-label-text">
                 {spellOutYear(Number(year.year))}
@@ -39,10 +39,11 @@ export default function YearsClient({ years }: { years: { data: YearWithAlbums[]
             <div className="year-albums">
               {year.albums?.slice(0, 5).map((album: Album) => (
                 <Link
-                  key={album.id}
-                  href={`/album/${album.slug}`}
-                  className="year-album-link"
-                >
+                key={album.id}
+                href={`/album/${album.slug}`}
+                className="year-album-link"
+              >
+                <div className="year-album-image-wrapper">
                   {album.coverImage?.url ? (
                     <TransitionImage
                       src={album.coverImage.url}
@@ -52,7 +53,9 @@ export default function YearsClient({ years }: { years: { data: YearWithAlbums[]
                   ) : (
                     <div className="year-album-placeholder">No Cover</div>
                   )}
-                </Link>
+                  <div className="year-album-overlay-meta">+</div>
+                </div>
+              </Link>              
               ))}
             </div>
           </div>

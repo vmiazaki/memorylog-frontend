@@ -480,3 +480,44 @@ nav.app-nav {
 .place-entry:hover .place-overlay {
   opacity: 1;
 }
+
+/* === Years page === */
+
+.year-entry {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+a.year-link {
+  background: var(--dark-color);
+  border-radius: 1rem;
+  overflow: hidden;
+  height: 100%;
+  width: 50%;
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem;
+}
+
+.year-albums {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.year-albums img {
+  width: 100px;
+  aspect-ratio: 1;
+  border-radius: 1rem;
+  object-fit: cover;
+  object-position: center;
+  transition: all 0.3s ease-in-out;
+  background: var(--dark-color);
+}
