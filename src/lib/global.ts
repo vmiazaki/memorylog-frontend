@@ -42,17 +42,11 @@ export interface Place {
   createdAt?: string;
   updatedAt?: string;
   publishedAt?: string;
+  location?: string;
   coverImage?: {
     url: string;
   } | null;
-  albums?: {
-    id: number;
-    title: string;
-    slug: string;
-    coverImage?: {
-      url: string;
-    } | null;
-  }[];
+  albums?: Album[];
 }
 
 export interface Year {
@@ -63,5 +57,8 @@ export interface Year {
   createdAt?: string;
   updatedAt?: string;
   publishedAt?: string;
+  coverImage?: {
+    url: string;
+  } | null;
   albums?: Album[];
 }

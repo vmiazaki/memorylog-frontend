@@ -493,7 +493,12 @@ nav.app-nav {
   gap: 1rem;
 }
 
-a.year-link {
+.year-entry * {
+  font-family: var(--font-vcr);
+  text-transform: uppercase;
+}
+
+.year-link {
   background: var(--dark-color);
   border-radius: 1rem;
   overflow: hidden;
@@ -501,9 +506,31 @@ a.year-link {
   width: 50%;
   flex: 1;
   display: inline-flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  padding: 2rem;
+  padding: 1.7rem 2rem 2.3rem;
+}
+
+.year-link .year-label-num {
+  letter-spacing: 2px;
+  opacity: .75;
+  font-size: 1.7rem;
+  line-height: 1;
+  transition: all .3s ease-in-out;
+}
+
+.year-link .year-label-txt {
+  letter-spacing: 1px;
+  opacity: .6;
+  font-size: .8rem;
+  line-height: 1.3;
+  transition: all .3s ease-in-out;
+}
+
+.year-link:hover .year-label-num,
+.year-link:hover .year-label-txt {
+  opacity: 1; 
+  color: var(--main-color);
 }
 
 .year-albums {
@@ -512,12 +539,44 @@ a.year-link {
   gap: 1rem;
 }
 
-.year-albums img {
-  width: 100px;
+.year-album-link {
+  position: relative;
+  width: 100%;
   aspect-ratio: 1;
   border-radius: 1rem;
+  overflow: hidden; 
+}
+
+.year-album-link img {
+  width: 100px;
+  aspect-ratio: 1;
   object-fit: cover;
   object-position: center;
   transition: all 0.3s ease-in-out;
   background: var(--dark-color);
+}
+
+.year-album-link:hover img {
+  filter: blur(3px);
+}
+
+.year-album-overlay {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  font-size: 1.7rem;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--main-color);
+  background: rgba(35, 35, 35, 0.6);
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.year-album-link:hover .year-album-overlay {
+  opacity: 1;
 }

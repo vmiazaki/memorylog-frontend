@@ -48,14 +48,14 @@ export async function getAlbumBySlug(slug: string) {
 
 export async function getPlaceBySlug(slug: string) {
   return fetchFromStrapi(
-    `places`, 
-    `filters[slug][$eq]=${slug}&populate=*`
+    `places`,
+    `filters[slug][$eq]=${slug}&populate[coverImage]=true&populate[albums][populate][coverImage]=true&populate[albums][populate][year]=true`
   );
 }
 
 export async function getYearBySlug(slug: string) {
   return fetchFromStrapi(
-    `years`, 
-    `filters[slug][$eq]=${slug}&populate=*`
+    `years`,
+    `filters[slug][$eq]=${slug}&populate[albums][populate][coverImage]=true&populate[albums][populate][year]=true&populate[albums][populate][places]=true`
   );
 }

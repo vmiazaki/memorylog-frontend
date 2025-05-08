@@ -2,7 +2,7 @@
 
 'use client';
 
-import Link from 'next/link';
+import TransitionLink from '@/components/TransitionLink';
 import { Year, Album } from '@/lib/global';
 import { usePageReady } from '@/lib/mounted';
 import { spellOutYear } from '@/lib/speller';
@@ -29,33 +29,29 @@ export default function YearsClient({ years }: { years: { data: YearWithAlbums[]
       <div className="main-content main-inner">
         {data.map((year) => (
           <div key={year.id} className="year-entry">
-            <Link href={`/year/${year.slug}`} className="year-link">
-              <span>{year.year}</span>
-              <span className="year-label-text">
+            <TransitionLink href={`/year/${year.slug}`} className="year-link">
+              <span className="year-label-num">{year.year}</span>
+              <span className="year-label-txt">
                 {spellOutYear(Number(year.year))}
               </span>
-            </Link>
+            </TransitionLink>
 
             <div className="year-albums">
               {year.albums?.slice(0, 5).map((album: Album) => (
-                <Link
-                key={album.id}
-                href={`/album/${album.slug}`}
-                className="year-album-link"
-              >
-                <div className="year-album-image-wrapper">
-                  {album.coverImage?.url ? (
+                <TransitionLink
+                  key={album.id}
+                  href={`/album/${album.slug}`}
+                  className="year-album-link"
+                >
+                  <div className="year-album-image-wrapper">
                     <TransitionImage
-                      src={album.coverImage.url}
+                      src={album.coverImage?.url}
                       alt={album.title}
                       className="year-album-image"
                     />
-                  ) : (
-                    <div className="year-album-placeholder">No Cover</div>
-                  )}
-                  <div className="year-album-overlay-meta">+</div>
-                </div>
-              </Link>              
+                    <div className="year-album-overlay">+</div>
+                  </div>
+                </TransitionLink>
               ))}
             </div>
           </div>
