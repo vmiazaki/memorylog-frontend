@@ -12,7 +12,8 @@ export default function AlbumClient({ album }: { album: Album }) {
     <>
       <h1 className="text-2xl font-bold">Album: {album.title}</h1>
       <pre className="mt-4 text-sm whitespace-pre-wrap">
-        {JSON.stringify(album, null, 2)}
+        {JSON.stringify(album, null, 2)} 
+        {/* I CAN DO IT */}
       </pre>
     </>
   );
