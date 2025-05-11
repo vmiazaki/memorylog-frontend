@@ -41,8 +41,8 @@ export async function getYears() {
 
 export async function getAlbumBySlug(slug: string) {
   return fetchFromStrapi(
-    `albums`, 
-    `filters[slug][$eq]=${slug}&populate=*`
+    `albums`,
+    `filters[slug][$eq]=${slug}&populate[coverImage]=true&populate[year]=true&populate[places]=true&populate[photos]=true&populate[video]=true&populate[videoCover]=true`
   );
 }
 

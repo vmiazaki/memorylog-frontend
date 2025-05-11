@@ -27,11 +27,29 @@ export interface Album {
     id: number;
     name: string;
     slug: string;
+    location?: string;
     documentId?: string;
     createdAt?: string;
     updatedAt?: string;
     publishedAt?: string;
   }[];
+  photos?: {
+    id: number;
+    url: string;
+    mime?: string;
+    name?: string;
+    alternativeText?: string | null;
+  }[];
+  video?: {
+    url: string;
+    mime?: string;
+    name?: string;
+  } | null;
+  videoCover?: {
+    url: string;
+    name?: string;
+    alternativeText?: string | null;
+  } | null;
 }
 
 export interface Place {

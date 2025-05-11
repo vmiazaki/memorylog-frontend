@@ -2,19 +2,107 @@
 
 'use client';
 
+import { useState } from 'react';
 import { usePageReady } from '@/lib/mounted';
 import { Album } from '@/lib/global';
+import TransitionLink from '@/components/TransitionLink';
+import TransitionImage from '@/components/TransitionImage';
+import Lightbox from 'yet-another-react-lightbox';
+import 'yet-another-react-lightbox/styles.css';
+import { Counter } from 'yet-another-react-lightbox/plugins';
+import 'yet-another-react-lightbox/plugins/counter.css';
 
-export default function AlbumClient({ album }: { album: Album }) {
+export default function AlbumClient({ album }: { album: { data: Album[] } }) {
   usePageReady();
+
+  const currentAlbum = album.data[0];
+  const photos = currentAlbum.photos || [];
+
+  const slides = photos.map((photo) => ({
+    src: photo.url,
+    alt: photo.alternativeText || photo.name || currentAlbum.title,
+  }));
+
+  const [index, setIndex] = useState(-1);
 
   return (
     <>
-      <h1 className="text-2xl font-bold">Album: {album.title}</h1>
-      <pre className="mt-4 text-sm whitespace-pre-wrap">
-        {JSON.stringify(album, null, 2)} 
-        {/* I CAN DO IT */}
-      </pre>
+      <div
+        className="album-header"
+        style={{
+          backgroundImage: `url(${currentAlbum.coverImage?.url})`,
+        }}
+      >
+        <div className="album-header-inner">
+          <h1>{currentAlbum.title}</h1>
+
+          {currentAlbum.places && currentAlbum.places.length > 0 && (
+            <div className="album-meta-block album-meta-place">
+              <TransitionLink href={`/place/${currentAlbum.places[0].slug}`}>
+                {currentAlbum.places[0].name}
+              </TransitionLink>
+              {currentAlbum.places[0].location && (
+                <span>{currentAlbum.places[0].location}</span>
+              )}
+            </div>
+          )}
+
+          {currentAlbum.year && (
+            <div className="album-meta-block album-meta-year">
+              <TransitionLink href={`/year/${currentAlbum.year.slug}`}>
+                {currentAlbum.year.year}
+              </TransitionLink>
+              {currentAlbum.timePeriod && <span>{currentAlbum.timePeriod}</span>}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="main-content main-inner album-grid">
+        {photos.length === 0 && (
+          <p>No media found for this album.</p>
+        )}
+
+        {photos.map((photo, i) => (
+          <div
+            key={photo.id}
+            className="album-media-entry"
+            onClick={() => setIndex(i)}
+            style={{ cursor: 'pointer' }}
+          >
+            <TransitionImage
+              src={photo.url}
+              alt={photo.alternativeText || photo.name || currentAlbum.title}
+              className="album-media-image"
+            />
+            <div className="album-media-overlay"><span>⛶</span> View Full</div>
+          </div>
+        ))}
+      </div>
+
+      {currentAlbum.video && (
+        <div className="main-content main-inner album-video-section">
+          <div className="album-video-wrapper">
+            <video
+              src={currentAlbum.video.url}
+              controls
+              poster={currentAlbum.videoCover?.url}
+              className="album-video"
+            />
+          </div>
+        </div>
+      )}
+
+      {index >= 0 && (
+        <Lightbox
+          open
+          close={() => setIndex(-1)}
+          slides={slides}
+          index={index}
+          on={{ view: ({ index }) => setIndex(index) }}
+          plugins={[Counter]}
+        />
+      )}
     </>
   );
 }
