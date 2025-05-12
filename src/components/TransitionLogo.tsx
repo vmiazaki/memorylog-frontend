@@ -1,4 +1,4 @@
-// component/TransitionLogo.tsx
+// components/TransitionLogo.tsx
 
 'use client';
 

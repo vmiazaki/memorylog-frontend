@@ -16,7 +16,7 @@ export default function YearClient({ year }: { year: { data: Year[] } }) {
 
   return (
     <>
-      <div className="main-title main-inner">
+      <div className="main-title">
         <div className="main-title-inner">
           <h1>{currentYear.year}</h1>
           <p>{spellOutYear(Number(currentYear.year))}</p>

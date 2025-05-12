@@ -13,7 +13,7 @@ export default function PlacesClient({ places }: { places: { data: Place[] } }) 
 
   return (
     <>
-      <div className="main-title main-inner">
+      <div className="main-title">
         <div className="main-title-inner">
           <h1>All Places</h1>
           <p>Organized by Location</p>

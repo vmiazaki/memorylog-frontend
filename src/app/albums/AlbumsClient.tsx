@@ -13,7 +13,7 @@ export default function AlbumsClient({ albums }: { albums: { data: Album[] } }) 
 
   return (
     <>
-      <div className="main-title main-inner">
+      <div className="main-title">
         <div className="main-title-inner">
           <h1>All Albums</h1>
           <p>Ordered Chronologically</p>

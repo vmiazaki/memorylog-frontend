@@ -11,6 +11,7 @@ import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 import { Counter } from 'yet-another-react-lightbox/plugins';
 import 'yet-another-react-lightbox/plugins/counter.css';
+import video from 'yet-another-react-lightbox/plugins/video';
 
 export default function AlbumClient({ album }: { album: { data: Album[] } }) {
   usePageReady();
@@ -24,6 +25,7 @@ export default function AlbumClient({ album }: { album: { data: Album[] } }) {
   }));
 
   const [index, setIndex] = useState(-1);
+  const [videoOpen, setVideoOpen] = useState(false);
 
   return (
     <>
@@ -60,7 +62,7 @@ export default function AlbumClient({ album }: { album: { data: Album[] } }) {
 
       <div className="main-content main-inner album-grid">
         {photos.length === 0 && (
-          <p>No media found for this album.</p>
+          <p className="album-no-media">No media found for this album</p>
         )}
 
         {photos.map((photo, i) => (
@@ -80,15 +82,26 @@ export default function AlbumClient({ album }: { album: { data: Album[] } }) {
         ))}
       </div>
 
-      {currentAlbum.video && (
+      {currentAlbum.video && currentAlbum.videoCover && (
         <div className="main-content main-inner album-video-section">
-          <div className="album-video-wrapper">
-            <video
-              src={currentAlbum.video.url}
-              controls
-              poster={currentAlbum.videoCover?.url}
-              className="album-video"
-            />
+          <div
+            className="album-video-wrapper"
+            onClick={() => setVideoOpen(true)}
+            style={{backgroundImage: `url(${currentAlbum.videoCover.url})`}}
+          >
+            <div className="album-video-overlay"></div>
+            <div className="album-video-button">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="23"
+                height="23"
+                fill="white"
+                viewBox="0 0 24 24"
+              >
+                <path d="M8 5v14l11-7z" />
+              </svg>
+              <p>Play</p>
+            </div>
           </div>
         </div>
       )}
@@ -101,6 +114,31 @@ export default function AlbumClient({ album }: { album: { data: Album[] } }) {
           index={index}
           on={{ view: ({ index }) => setIndex(index) }}
           plugins={[Counter]}
+        />
+      )}
+
+      {videoOpen && currentAlbum.video && (
+        <Lightbox
+        open
+          close={() => setVideoOpen(false)}
+          slides={[
+            {
+              type: 'video',
+              // poster: currentAlbum.videoCover?.url,
+              sources: [
+                {
+                  src: currentAlbum.video.url,
+                  type: 'video/mp4',
+                },
+              ],
+              autoPlay: true,
+            },
+          ]}
+          plugins={[video]}
+          render={{
+            buttonPrev: () => null,
+            buttonNext: () => null,
+          }}
         />
       )}
     </>

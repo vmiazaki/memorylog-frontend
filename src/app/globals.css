@@ -183,7 +183,10 @@ nav.app-nav {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  padding: 1.25rem 2rem 2rem !important;
+  padding: 1.25rem 2rem 2rem;
+  margin: 0 0 1rem;
+  border-radius: 1rem;
+  background: var(--medium-color);
 }
 
 .main-title .main-title-inner {
@@ -217,10 +220,7 @@ nav.app-nav {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  padding: 2rem;
-  margin: 0 0 20px;
-  border-radius: 1.75rem;
-  background: var(--medium-color);
+  margin: 0 0 1rem;
 }
 
 /* === Homepage === */
@@ -309,7 +309,7 @@ nav.app-nav {
   position: relative;
   width: calc(25% - 0.75rem);
   border-radius: 1rem;
-  background: var(--dark-color);
+  background: var(--medium-color);
   overflow: hidden;
 }
 
@@ -396,7 +396,7 @@ nav.app-nav {
   display: flex;
   align-items: center;
   border-radius: 1rem;
-  background: var(--dark-color);
+  background: var(--medium-color);
   overflow: hidden;
 }
 
@@ -498,7 +498,7 @@ nav.app-nav {
 }
 
 .year-link {
-  background: var(--dark-color);
+  background: var(--medium-color);
   border-radius: 1rem;
   overflow: hidden;
   height: 100%;
@@ -583,12 +583,12 @@ nav.app-nav {
 /* === Albums post === */
 
 .album-header {
-  min-height: 600px;
+  height: 600px;
+  border-radius: 1rem;
+  margin: 0px 0px 1rem;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 1.75rem;
-  margin: 0px 0px 20px;
   overflow: hidden;
 }
 
@@ -604,7 +604,7 @@ nav.app-nav {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  background-color: rgba(35, 35, 35, 0.5);
+  background-color: rgba(35, 35, 35, 0.6);
 }
 
 .album-header-inner h1 {
@@ -654,15 +654,9 @@ nav.app-nav {
   line-height: 1.6;
 }
 
-.album-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
 .album-grid .album-media-entry {
   position: relative;
-  width: calc(25% - 0.75rem);
+  width: calc(33.33% - 0.67rem);
   border-radius: 1rem;
   overflow: hidden;
 }
@@ -699,7 +693,7 @@ nav.app-nav {
 }
 
 .album-grid .album-media-entry .album-media-overlay span {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   position: relative;
   top: -2px;
   left: -10px;
@@ -712,20 +706,94 @@ nav.app-nav {
 .album-video-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 1.75;
-  margin: 0 auto;
+  height: 600px;
   border-radius: 1rem;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
   overflow: hidden;
   cursor: pointer;
 }
 
-.album-video {
+.album-video-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
+  z-index: 1;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  background: rgba(35, 35, 35, 0.6);
+  backdrop-filter: blur(3px);
+  pointer-events: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.album-video-wrapper:hover .album-video-overlay {
+  opacity: 1;
+}
+
+.album-video-button {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.75rem;
+  background: rgba(35, 35, 35, 0.6);
+  backdrop-filter: blur(3px);
+  transition: all 0.3s ease-in-out;
+}
+
+.album-video-wrapper:hover .album-video-button {
+  background: rgba(35, 35, 35, 0.7);
+}
+
+.album-video-button svg {
+  position: relative;
+  left: -3px;
+  display: block;
+  margin: 0 3px 0 0;
+}
+
+.album-video-button svg path {
+  fill: var(--light-color);
+  transition: all 0.3s ease-in-out;
+}
+
+.album-video-wrapper:hover .album-video-button svg path {
+  fill: var(--main-color);
+}
+
+.album-video-button p {
+  font-family: var(--font-vcr);
+  font-size: 1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.album-video-wrapper:hover .album-video-button p {
+  color: var(--main-color);
+}
+
+.album-no-media {
+  font-family: var(--font-vcr);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: center;
+  display: block;
+  width: 100%;
+  padding: 2rem 1rem 0;
+  opacity: .5;
 }
 
 .yarl__container {
@@ -787,4 +855,8 @@ nav.app-nav {
 
 .yarl__toolbar {
   padding: 0px !important; 
+}
+
+.yarl__video_container video {
+  border-radius: 1rem;
 }

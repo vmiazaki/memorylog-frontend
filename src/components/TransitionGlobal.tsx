@@ -1,4 +1,4 @@
-// component/transitionGlobal.tsx
+// components/transitionGlobal.tsx
 
 'use client';
 

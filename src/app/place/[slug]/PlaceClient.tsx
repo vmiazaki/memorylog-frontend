@@ -15,7 +15,7 @@ export default function PlaceClient({ place }: { place: { data: Place[] } }) {
 
   return (
     <>
-      <div className="main-title main-inner">
+      <div className="main-title">
         <div className="main-title-inner">
           <h1>{currentPlace.name}</h1>
           {currentPlace.location && <p>{currentPlace.location}</p>}

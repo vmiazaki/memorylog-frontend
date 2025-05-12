@@ -1,4 +1,4 @@
-// component/TransitionMain.tsx
+// components/TransitionMain.tsx
 
 'use client';
 

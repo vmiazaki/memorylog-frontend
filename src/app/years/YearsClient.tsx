@@ -18,7 +18,7 @@ export default function YearsClient({ years }: { years: { data: YearWithAlbums[]
 
   return (
     <>
-      <div className="main-title main-inner">
+      <div className="main-title">
         <div className="main-title-inner">
           <h1>All Years</h1>
           <p>Since 1995</p>

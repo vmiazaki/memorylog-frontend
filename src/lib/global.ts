@@ -11,6 +11,7 @@ export interface Album {
   createdAt?: string;
   updatedAt?: string;
   publishedAt?: string;
+  description?: string;
   coverImage?: {
     url: string;
   } | null;

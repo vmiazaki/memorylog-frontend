@@ -14,9 +14,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   const pathParts = pathname.split('/').filter(Boolean); // e.g. ['albums', 'summer-2023']
   const rootSlug = pathParts[0] || 'home'; // fallback to 'home' if on /
+  const postId = pathParts[1]; // optional second segment, like 'summer-2023'
 
   return (
-    <div className={clsx('app-shell', `page--${rootSlug}`)}>
+    <div className={clsx('app-shell', `page--${rootSlug}`, postId && `post--${postId}`)}>
       <motion.nav
         className="app-nav"
         initial={{ opacity: 0 }}
@@ -32,7 +33,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <TransitionLink href="/places" className="nav-link">Places</TransitionLink>
           <TransitionLink href="/years" className="nav-link">Years</TransitionLink>
         </div>
-        <TransitionLink className="nav-more" href="/about"><span className="more-icon">+</span></TransitionLink>
+        <TransitionLink className="nav-more" href="/about">
+          <span className="more-icon">+</span>
+        </TransitionLink>
       </motion.nav>
 
       {children}
