@@ -12,6 +12,7 @@ import 'yet-another-react-lightbox/styles.css';
 import { Counter } from 'yet-another-react-lightbox/plugins';
 import 'yet-another-react-lightbox/plugins/counter.css';
 import video from 'yet-another-react-lightbox/plugins/video';
+import type { SlideImage, SlideVideo } from 'yet-another-react-lightbox';
 
 export default function AlbumClient({ album }: { album: { data: Album[] } }) {
   usePageReady();
@@ -19,13 +20,28 @@ export default function AlbumClient({ album }: { album: { data: Album[] } }) {
   const currentAlbum = album.data[0];
   const photos = currentAlbum.photos || [];
 
-  const slides = photos.map((photo) => ({
+  const imageSlides: SlideImage[] = photos.map((photo) => ({
     src: photo.url,
     alt: photo.alternativeText || photo.name || currentAlbum.title,
   }));
 
+  const videoSlide: SlideVideo | null = currentAlbum.video
+    ? {
+        type: 'video' as const,
+        poster: currentAlbum.videoCover?.url,
+        sources: [
+          {
+            src: currentAlbum.video.url,
+            type: 'video/mp4',
+          },
+        ],
+        autoPlay: true,
+      }
+    : null;
+
+  const slides = videoSlide ? [...imageSlides, videoSlide] : imageSlides;
+
   const [index, setIndex] = useState(-1);
-  const [videoOpen, setVideoOpen] = useState(false);
 
   return (
     <>
@@ -77,7 +93,7 @@ export default function AlbumClient({ album }: { album: { data: Album[] } }) {
               alt={photo.alternativeText || photo.name || currentAlbum.title}
               className="album-media-image"
             />
-            <div className="album-media-overlay"><span>⛶</span> View Full</div>
+            <div className="album-media-overlay"><span>⛶</span> View</div>
           </div>
         ))}
       </div>
@@ -86,8 +102,8 @@ export default function AlbumClient({ album }: { album: { data: Album[] } }) {
         <div className="main-content main-inner album-video-section">
           <div
             className="album-video-wrapper"
-            onClick={() => setVideoOpen(true)}
-            style={{backgroundImage: `url(${currentAlbum.videoCover.url})`}}
+            onClick={() => setIndex(slides.length - 1)}
+            style={{ backgroundImage: `url(${currentAlbum.videoCover.url})` }}
           >
             <div className="album-video-overlay"></div>
             <div className="album-video-button">
@@ -113,28 +129,8 @@ export default function AlbumClient({ album }: { album: { data: Album[] } }) {
           slides={slides}
           index={index}
           on={{ view: ({ index }) => setIndex(index) }}
-          plugins={[Counter]}
-        />
-      )}
-
-      {videoOpen && currentAlbum.video && (
-        <Lightbox
-        open
-          close={() => setVideoOpen(false)}
-          slides={[
-            {
-              type: 'video',
-              // poster: currentAlbum.videoCover?.url,
-              sources: [
-                {
-                  src: currentAlbum.video.url,
-                  type: 'video/mp4',
-                },
-              ],
-              autoPlay: true,
-            },
-          ]}
-          plugins={[video]}
+          plugins={[Counter, video]}
+          carousel={{ finite: true }}
           render={{
             buttonPrev: () => null,
             buttonNext: () => null,
