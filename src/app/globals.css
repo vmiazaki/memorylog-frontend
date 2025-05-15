@@ -715,11 +715,11 @@ nav.app-nav {
   align-items: center;
   justify-content: center;
   margin: 0 auto;    font-family: var(--font-vcr);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    text-align: center;
-    font-size: 1rem;
-    transition: all .3s ease-in-out;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 1rem;
+  transition: all .3s ease-in-out;
   overflow: hidden;
   cursor: pointer;
 }
